@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddReminderActivity"></activity>
+        <activity
+            android:name=".reminder.patientHealth"
+            android:label="@string/title_activity_patient_health"
+            android:parentActivityName=".userlogin"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myapplication.userlogin" />
+        </activity>
+
+        <service
+            android:name=".RestFetcher"
+            android:exported="false" />
+
+        <activity android:name=".AddReminderActivity" />
         <activity android:name=".MainActivity2" />
         <activity android:name=".userlogin" />
 
@@ -24,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name=".data.AlarmReminderProvider"
             android:authorities="com.myapplication.alarmreminder"
@@ -33,7 +50,6 @@
             android:name=".reminder.ReminderAlarmService"
             android:authorities="com.myapplication.alarmreminder"
             android:exported="false" />
-
     </application>
 
 </manifest>
