@@ -13,13 +13,11 @@ schema_list = [
   'HospitalId',
   'ReaderId',
   'Patient_Id',
-  'Temp_0',
-  'Temp_1',
-  'Temp_2',
+  'Calorie',
+  'HeartBeat',
+  'StepCount',
   'Bat_VTG',
   'RSSI',
-  'Lat',
-  'Longi',
   'FallDetection' 
 ]
 
@@ -42,25 +40,32 @@ def convert_db_to_json(db_list, field=None):
         #print("new_list=", new_list)
     return new_list
 
-class Patient(Resource):
-    def get(self):
+class PatientAll(Resource):
+    def get(self, cursor):
         conn = db_connect.connect() # connect to database
         query = conn.execute("select * from PATIENT_LIVE_DATA") # This line performs query and returns json result
         try:
             l = query.cursor.fetchall()
-            db_list = convert_db_to_json(l, 'all')
+            print("len(l)=", len(l), "l= ", l)
+            print("cursor=", int(cursor))
+            print("len(new_list)=", len(new_list), "new_list=", new_list)
+
+            db_list = convert_db_to_json(new_list, 'all')
             #return {'all': db_list}
             return db_list
         except Exception as e:
             print("Exception at patient all get: ", str(e))
     
-class PatientName(Resource):
-    def get(self, patient_id):
+class PatientInfoFromId(Resource):
+    def get(self, patient_id, cursor):
         conn = db_connect.connect() # connect to database
         query = conn.execute("select * from PATIENT_LIVE_DATA")
         l = query.cursor.fetchall()
-        db_list = convert_db_to_json(l, patient_id)
-        return db_list
+        new_list = l[int(cursor):]
+        db_list = convert_db_to_json(l, patient_id) 
+        new_list_1 = db_list[int(cursor):]
+        print("db_list=", db_list, "patient_id = ", patient_id, "cursor=",cursor)
+        return new_list_1
 
 class PatientLogin(Resource):
     def get(self, patient_id, patient_passwd):
@@ -68,13 +73,14 @@ class PatientLogin(Resource):
         query = conn.execute("select * from PATIENT_INFO_DB")
         l = query.cursor.fetchall()
         for i in l:
+            print("cat=", i[4], " 5= ", i[5])
             if patient_id in i and patient_passwd in i:
-                return [{'Patient_Id': i[3]}]
-        return [{"Patient_Id": "unknown"}]
+                return [{'Patient_Id': i[3], 'User_Category':i[5]}]
+        return [{"Patient_Id": "unknown", 'User_Category': 'unknown'}]
 
-api.add_resource(Patient, '/all')
-api.add_resource(PatientName, '/patient/<patient_id>')
-api.add_resource(PatientLogin, '/patient/<patient_id>/<patient_passwd>')
+api.add_resource(PatientAll, '/all/<cursor>')
+api.add_resource(PatientInfoFromId, '/patient/<patient_id>/<cursor>')
+api.add_resource(PatientLogin, '/patient-login/<patient_id>/<patient_passwd>')
 
 
 if __name__ == '__main__':

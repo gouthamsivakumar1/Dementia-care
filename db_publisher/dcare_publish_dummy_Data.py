@@ -46,23 +46,26 @@ def random_select(l):
 #hospital_list = ["cosmo", "PRS", "Narayana", "Lotus"]
 patient_list  = ["goutham", "kamal", "dhanya", "suma", "kannam"]
 patient_id_list  = ["1001", "1003", "1005", "1007", "1009"]
+heart_beat = ["40", "50", "60", "70", "80", "90"]
+step_count = 100
+rssi = ["40", "60", "80", "90", "85"]
 fall_detection_list = ["0", "1"]
 reader_list = ["reader0", "reader1"]
 
 def publish_fake_sensor_values_to_mqtt():
+    global step_count
     threading.Timer(3.0, publish_fake_sensor_values_to_mqtt).start()
     sensor_data = {}
     sensor_data['Date_n_Time'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
     sensor_data['HospitalId'] = "cosmo hospital" 
     sensor_data['ReaderId']   = random_select(reader_list)
     sensor_data['Patient_Id']   = random_select(patient_id_list)
-    sensor_data['temp_0']   = "temp_0"
-    sensor_data['temp_1']   = "temp_1"
-    sensor_data['temp_2']   = "temp_2"
-    sensor_data['Bat_VTG']   = "bat_vtg"
-    sensor_data['rssi']   = "rssi_0"
-    sensor_data['Lat']   = "Lat0"
-    sensor_data['Longi']   = "Long0"
+    sensor_data['Calorie']   = "40"
+    sensor_data['HeartBeat']   = random_select(heart_beat)
+    sensor_data['StepCount']   = step_count+25
+    step_count += 25
+    sensor_data['Bat_VTG']   = "3.3"
+    sensor_data['rssi']   = random_select(rssi)
     sensor_data['FallDetection']   = random_select(fall_detection_list)
     sensor_data_json = json.dumps(sensor_data)
 

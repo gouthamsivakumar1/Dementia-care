@@ -13,13 +13,11 @@ create table  PATIENT_LIVE_DATA (
   HospitalId text,
   ReaderId text,
   Patient_Id text,
-  Temp_0 text,
-  Temp_1 text,
-  Temp_2 text,
+  Calorie text,
+  HeartBeat text,
+  StepCount text,
   Bat_VTG text,
   RSSI text,
-  Lat text,
-  Longi text,
   FallDetection text
 );
 
@@ -29,7 +27,8 @@ create table PATIENT_INFO_DB(
   Date_n_Time text,
   Patient_Name text,
   Patient_Id text,
-  Patient_Passwd text
+  Patient_Passwd text,
+  User_Category text
 );
 """
 

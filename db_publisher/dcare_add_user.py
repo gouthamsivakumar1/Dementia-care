@@ -28,7 +28,7 @@ class DatabaseManager():
         self.cur.close()
         self.conn.close()
 
-def patient_database_handler(u_name, u_id, u_pass):
+def patient_database_handler(u_name, u_id, u_pass, u_category):
     dbObj = DatabaseManager()
     try:
         date_time = datetime.today().strftime("%d-%b-%Y %H:%M:%S:%f")
@@ -37,12 +37,14 @@ def patient_database_handler(u_name, u_id, u_pass):
   Date_n_Time,\
   Patient_Name,\
   Patient_Id,\
-  Patient_Passwd\
-  ) VALUES(?,?,?,?)",[
+  Patient_Passwd,\
+  User_Category\
+  ) VALUES(?,?,?,?,?)",[
      date_time,
      u_name,
      u_id,
      u_pass,
+     u_category
     ])
         del dbObj
         print("patient Data into Database.")
@@ -57,9 +59,13 @@ parser.add_argument("--id", help="add user id",
                             type=str, nargs=1)
 parser.add_argument("--passwd", help="add user passwd",
                             type=str, nargs=1)
-
+parser.add_argument("--category", help="add user category",
+                                    default='patient', const='patient', choices=['patient',
+                                        'bystander', 'admin'] , nargs='?')
 args = parser.parse_args()
 if (args.user and args.id and args.passwd):
-    patient_database_handler(args.user[0], args.id[0], args.passwd[0])
+    print("args.category=", args.category)
+    patient_database_handler(args.user[0], args.id[0], args.passwd[0],
+            args.category)
 else:
     parser.print_help(sys.stderr)

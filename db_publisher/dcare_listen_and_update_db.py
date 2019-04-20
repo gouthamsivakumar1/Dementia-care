@@ -14,13 +14,11 @@ Table_schema_elements= """
   HospitalId text,
   ReaderId text,
   Patient_Id text,
-  Temp_0 text,
-  Temp_1 text,
-  Temp_2 text,
+  Calorie text,
+  HeartBeat text,
+  StepCount text,
   Bat_VTG text,
   RSSI text,
-  Lat text,
-  Longi text,
   FallDetection text
 """
 
@@ -58,26 +56,22 @@ def patient_data_handler(jsonData):
   HospitalId,\
   ReaderId,\
   Patient_Id,\
-  Temp_0,\
-  Temp_1,\
-  Temp_2,\
+  Calorie,\
+  HeartBeat,\
+  StepCount,\
   Bat_VTG,\
   RSSI,\
-  Lat,\
-  Longi,\
   FallDetection\
-  ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",[
+  ) VALUES(?,?,?,?,?,?,?,?,?,?)",[
     sensor_data['Date_n_Time'], 
     sensor_data['HospitalId'],
     sensor_data['ReaderId'],   
     sensor_data['Patient_Id'],
-    sensor_data['temp_0'],
-    sensor_data['temp_1'],
-    sensor_data['temp_2'],
+    sensor_data['Calorie'],
+    sensor_data['HeartBeat'],
+    sensor_data['StepCount'],
     sensor_data['Bat_VTG'],
     sensor_data['rssi'],
-    sensor_data['Lat'],
-    sensor_data['Longi'],
     sensor_data['FallDetection']
     ])
         del dbObj
