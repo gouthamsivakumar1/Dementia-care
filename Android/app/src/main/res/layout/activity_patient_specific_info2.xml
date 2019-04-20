@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PatientSpecificInfo2">
+
+</android.support.constraint.ConstraintLayout-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+
+    android:weightSum="3"
+    android:background="@drawable/border">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+        android:background="@drawable/natural"
+
+        android:layout_weight="1.5">50%
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="WELCOME LORIN"
+            android:textAlignment="center"
+            android:textColor="#FFFDFD"
+            android:textSize="36sp"
+            app:fontFamily="sans-serif-black" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/border"
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.5"
+        >50%
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="40dp"
+            android:layout_gravity="left"
+            android:text="Heart Beat"
+            android:textColor="#FFFDFD"
+            android:textSize="25sp"
+            app:fontFamily="sans-serif-black" />
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical"
+            android:text="30%"
+            android:id="@+id/Hearth_Beat"
+            android:textColor="#FFFDFD"
+            android:textSize="25sp"
+            app:fontFamily="sans-serif-black" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:background="@drawable/border"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.5"
+        >
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="40dp"
+            android:layout_gravity="left"
+            android:text="Calorie Rate"
+            android:textColor="#FFFDFD"
+            android:textSize="25sp"
+            app:fontFamily="sans-serif-black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical"
+
+            android:id="@+id/Calorie_Rate"
+            android:textColor="#FFFDFD"
+            android:textSize="25sp"
+            android:text="70%"
+            app:fontFamily="sans-serif-black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/border"
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.5"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="40dp"
+            android:layout_gravity="left"
+            android:text="Step Count"
+            android:textColor="#FFFDFD"
+            android:textSize="25sp"
+            app:fontFamily="sans-serif-black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical"
+
+            android:id="@+id/Step_Count"
+            android:textColor="#FFFDFD"
+            android:textSize="25sp"
+            android:text="50%"
+            app:fontFamily="sans-serif-black" />
+    </LinearLayout>
+</LinearLayout>

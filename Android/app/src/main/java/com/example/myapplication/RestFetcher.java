@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,8 +35,8 @@ public class RestFetcher extends IntentService {
     //private static final String EXTRA_PARAM1 = "com.example.myapplication.extra.PARAM1";
     //private static final String EXTRA_PARAM2 = "com.example.myapplication.extra.PARAM2";
 
-    public static final String EXTRA_PARAM1 = "com.example.myapplication.extra.PARAM1";
-    public static final String EXTRA_PARAM2 = "com.example.myapplication.extra.PARAM2";
+    public static final String EXTRA_PARAM1_REQ_TYPE = "com.example.myapplication.extra.PARAM1";
+    public static final String EXTRA_PARAM2_CURSOR = "com.example.myapplication.extra.PARAM2";
     public RestFetcher() {
         super("RestFetcher");
     }
@@ -50,8 +51,8 @@ public class RestFetcher extends IntentService {
     public static void startActionGetAll(Context context, String param1, String param2) {
         Intent intent = new Intent(context, RestFetcher.class);
         intent.setAction(ACTION_GET_ALL);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
+        intent.putExtra(EXTRA_PARAM1_REQ_TYPE, param1);
+        intent.putExtra(EXTRA_PARAM2_CURSOR, param2);
         context.startService(intent);
     }
 
@@ -65,74 +66,110 @@ public class RestFetcher extends IntentService {
     public static void startActionBaz(Context context, String param1, String param2) {
         Intent intent = new Intent(context, RestFetcher.class);
         intent.setAction(ACTION_BAZ);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
+        intent.putExtra(EXTRA_PARAM1_REQ_TYPE, param1);
+        intent.putExtra(EXTRA_PARAM2_CURSOR, param2);
         context.startService(intent);
     }
+    public void get_all_patient_request(Api api, String cursor) {
+        Call<List<RestAllResponse>> call = api.getPatientAll(cursor);
 
+        Log.i(TAG, "Calling Rest...cursor= "+cursor);
+        call.enqueue(new Callback<List<RestAllResponse>>() {
+            @Override
+            public void onResponse(Call<List<RestAllResponse>> call, Response<List<RestAllResponse>> response) {
+
+                List<RestAllResponse> patientHealth = response.body();
+                String result = "";
+
+                int len = patientHealth.size();
+                if (len >0){
+
+                    DcareAppCtx ctx = (DcareAppCtx) RestFetcher.this.getApplicationContext();
+                    Log.i(TAG, "ctx.cursor= "+ ctx.cursor);
+                    ctx.setCursor(String.valueOf(ctx.cursor+len));
+                }
+                Log.i(TAG, "Rest response success= " + result);
+                Intent in = new Intent(ACTION_GET_ALL);
+                in.putExtra("resultCode", Activity.RESULT_OK);
+                //in.putExtra("resultValue", result);
+                in.putExtra("LIST", (Serializable) patientHealth);
+
+                //in.putExtra("resultValue", "My Result Value. Passed in: " + patientHealth.get(0).Date_n_Time);
+                //in.putExtra("resultValue", "============\n" + result+ "=======================\n");
+                LocalBroadcastManager.getInstance(RestFetcher.this).sendBroadcast(in);
+            }
+
+            @Override
+            public void onFailure(Call<List<RestAllResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Rest fail..");
+                //Toast.makeText(MainActivity.this, "Failed to connect to server..", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    public void get_patient_id_request(Api api, String patient_id, String cursor) {
+        Log.i(TAG, "Calling Rest... cursor="+ cursor+" patient id= "+ patient_id);
+        Call<List<RestAllResponse>> call = api.getPatientWithId(patient_id, cursor);
+
+
+        call.enqueue(new Callback<List<RestAllResponse>>() {
+            @Override
+            public void onResponse(Call<List<RestAllResponse>> call, Response<List<RestAllResponse>> response) {
+
+                List<RestAllResponse> patientHealth = response.body();
+                String result = "";
+
+                /*for(RestAllResponse patientHealth1:patientHealth) {
+                    result += patientHealth1.Date_n_Time + " "+ patientHealth1.Patient_Id +"\n";
+                }*/
+                int len = patientHealth.size();
+                if (len >0){
+                    DcareAppCtx ctx = (DcareAppCtx) RestFetcher.this.getApplicationContext();
+                    Log.i(TAG, "ctx.cursor= "+ ctx.cursor);
+                    ctx.setCursor(String.valueOf(ctx.cursor+len));
+                }
+                Log.i(TAG, "Rest response success= len = " + String.valueOf(len));
+                Intent in = new Intent(ACTION_GET_ALL);
+                in.putExtra("resultCode", Activity.RESULT_OK);
+                in.putExtra("LIST", (Serializable) patientHealth);
+                //in.putExtra("resultValue", result);
+                //in.putExtra("resultValue", "My Result Value. Passed in: " + patientHealth.get(0).Date_n_Time);
+                //in.putExtra("resultValue", "============\n" + result+ "=======================\n");
+                LocalBroadcastManager.getInstance(RestFetcher.this).sendBroadcast(in);
+            }
+
+            @Override
+            public void onFailure(Call<List<RestAllResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Rest fail..");
+                //Toast.makeText(MainActivity.this, "Failed to connect to server..", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.i(TAG, "onHandleIntent called");
         if (intent != null) {
             final String action = intent.getAction();Log.i(TAG, "onHandleIntent action=" + action);
             Log.i(TAG, "onHandleIntent action=" + action);
-            final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-            final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-            Log.i(TAG, "onHandleIntent params=" + param1+ " param2="+param2);
+            final String req_type = intent.getStringExtra(EXTRA_PARAM1_REQ_TYPE);
+            final String cursor = intent.getStringExtra(EXTRA_PARAM2_CURSOR);
+            Log.i(TAG, "onHandleIntent params=" + req_type + " param2="+ cursor);
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Api.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
                     .build();
             Api api = retrofit.create(Api.class);
-            Call<List<RestAllResponse>> call = api.getPatient();
+            if (req_type.equalsIgnoreCase("all") == true) {
+                get_all_patient_request(api, cursor);
+            } else {
 
-            Log.i(TAG, "Calling Rest...");
-            call.enqueue(new Callback<List<RestAllResponse>>() {
-                @Override
-                public void onResponse(Call<List<RestAllResponse>> call, Response<List<RestAllResponse>> response) {
-
-                    List<RestAllResponse> patientHealth = response.body();
-                    Log.i(TAG, "Rest response success= " + patientHealth.get(0).Date_n_Time);
-                    Intent in = new Intent(ACTION_GET_ALL);
-                    in.putExtra("resultCode", Activity.RESULT_OK);
-                    in.putExtra("resultValue", "My Result Value. Passed in: " + patientHealth.get(0).Date_n_Time);
-                    LocalBroadcastManager.getInstance(RestFetcher.this).sendBroadcast(in);
-
-                    //patientList.get(0)
-                    /*
-                    Log.i(TAG, "Rest response success= "+ patientList.get(0).Patient_Id);
-                    String pId = patientList.get(0).Patient_Id;
-                    if (pId.equalsIgnoreCase("unknown") == false) {
-                        Intent intent = new Intent(MainActivity.this, userlogin.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
-                    }
-                    */
-                    //now we can do whatever we want with this list
-                }
-
-                @Override
-                public void onFailure(Call<List<RestAllResponse>> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "Rest fail..");
-                    //Toast.makeText(MainActivity.this, "Failed to connect to server..", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            /*
-            if (ACTION_FOO.equals(action)) {
-                Log.i(TAG, "Hit ACTION_FOO");
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                Log.i(TAG, "Hit ACTION_BAZ");
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
+                Log.i(TAG, "Shouldnot hit patient id request...");
+                get_patient_id_request(api, req_type, cursor);
             }
-            */
+
         }
     }
 

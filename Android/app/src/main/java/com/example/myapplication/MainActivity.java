@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+;
 
 public class MainActivity extends Activity {
     String TAG="Dcare";
@@ -50,7 +54,8 @@ public class MainActivity extends Activity {
                 .build();
         Api api = retrofit.create(Api.class);
         Call<List<RestLoginResponse>> call = api.getPatientLogin(usr.getText().toString(), pas.getText().toString());
-
+        DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
+        ctx.setUser_name(usr.getText().toString());
         call.enqueue(new Callback<List<RestLoginResponse>>() {
             @Override
             public void onResponse(Call<List<RestLoginResponse>> call, Response<List<RestLoginResponse>> response) {
@@ -58,9 +63,14 @@ public class MainActivity extends Activity {
                 //In this point we got our hero list
                 //thats damn easy right ;)
                 List<RestLoginResponse> patientList = response.body();
-                Log.i(TAG, "Rest response success= "+ patientList.get(0).Patient_Id);
+
                 String pId = patientList.get(0).Patient_Id;
+                String uCategory = patientList.get(0).User_Category;
+                Log.i(TAG, "Rest response success, id="+pId+" pCategory ="+uCategory);
                 if (pId.equalsIgnoreCase("unknown") == false) {
+                    DcareAppCtx ctx = (DcareAppCtx) MainActivity.this.getApplicationContext();
+                    ctx.user_id = Integer.parseInt(pId);
+                    ctx.setUser_category(uCategory);
                     Intent intent = new Intent(MainActivity.this, userlogin.class);
                     startActivity(intent);
                 } else {
