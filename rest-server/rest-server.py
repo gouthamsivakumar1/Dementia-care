@@ -48,8 +48,8 @@ class PatientAll(Resource):
             l = query.cursor.fetchall()
             print("len(l)=", len(l), "l= ", l)
             print("cursor=", int(cursor))
+            new_list = l[int(cursor):]
             print("len(new_list)=", len(new_list), "new_list=", new_list)
-
             db_list = convert_db_to_json(new_list, 'all')
             #return {'all': db_list}
             return db_list
@@ -67,16 +67,33 @@ class PatientInfoFromId(Resource):
         print("db_list=", db_list, "patient_id = ", patient_id, "cursor=",cursor)
         return new_list_1
 
+def get_patient_name_from_category(patient_id, patient_name):
+    conn = db_connect.connect() # connect to database
+    query = conn.execute("select * from PATIENT_INFO_DB")
+    l = query.cursor.fetchall()
+    for row in l:
+        if patient_id in row and "bystander" not in row:
+            return row[2]
+    return 'unknown'
+
 class PatientLogin(Resource):
     def get(self, patient_id, patient_passwd):
         conn = db_connect.connect() # connect to database
         query = conn.execute("select * from PATIENT_INFO_DB")
         l = query.cursor.fetchall()
         for i in l:
-            print("cat=", i[4], " 5= ", i[5])
             if patient_id in i and patient_passwd in i:
-                return [{'Patient_Id': i[3], 'User_Category':i[5]}]
-        return [{"Patient_Id": "unknown", 'User_Category': 'unknown'}]
+                patient_id = i[3]
+                user_cat = i[5]
+                patient_name = get_patient_name_from_category(patient_id, user_cat)
+                return [{'Patient_Id': patient_id,
+                         'Patient_Name':patient_name,
+                         'User_Category':user_cat
+                        }]
+        return [{'Patient_Id': 'unknown',
+                 'Patient_Name':'unknown',
+                 'User_Category': 'unknown'
+                }]
 
 api.add_resource(PatientAll, '/all/<cursor>')
 api.add_resource(PatientInfoFromId, '/patient/<patient_id>/<cursor>')

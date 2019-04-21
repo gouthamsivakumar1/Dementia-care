@@ -71,6 +71,29 @@ def publish_fake_sensor_values_to_mqtt():
 
     publish_topic(MQTT_Topic, sensor_data_json)
 
+def publish_fake_sensor_values_to_mqtt_one_time():
+    global step_count
+    #threading.Timer(3.0, publish_fake_sensor_values_to_mqtt).start()
+    sensor_data = {}
+    sensor_data['Date_n_Time'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
+    sensor_data['HospitalId'] = "cosmo hospital" 
+    sensor_data['ReaderId']   = random_select(reader_list)
+    sensor_data['Patient_Id']   = 1001
+    sensor_data['Calorie']   = "150"
+    sensor_data['HeartBeat']   = random_select(heart_beat)
+    sensor_data['StepCount']   = step_count+25
+    step_count += 25
+    sensor_data['Bat_VTG']   = "3.3"
+    sensor_data['rssi']   = random_select(rssi)
+    sensor_data['FallDetection']   = "1"
+    sensor_data_json = json.dumps(sensor_data)
+
+    publish_topic(MQTT_Topic, sensor_data_json)
+
 publish_fake_sensor_values_to_mqtt()
+#publish_fake_sensor_values_to_mqtt_one_time()
+#publish_fake_sensor_values_to_mqtt_one_time()
+
+
 
 #====================================================
