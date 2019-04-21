@@ -29,8 +29,9 @@ public class RestFetcher extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     public static final String ACTION_GET_ALL = "com.example.myapplication.action.GET_ALL";
-    private static final String ACTION_BAZ = "com.example.myapplication.action.BAZ";
-
+    public static final String ACTION_ALERT = "com.example.myapplication.action.BAZ";
+    public static int alert_cursor=0;
+    public static int alert_iter_cnt=0;
     // TODO: Rename parameters
     //private static final String EXTRA_PARAM1 = "com.example.myapplication.extra.PARAM1";
     //private static final String EXTRA_PARAM2 = "com.example.myapplication.extra.PARAM2";
@@ -62,10 +63,30 @@ public class RestFetcher extends IntentService {
      *
      * @see IntentService
      */
-    // TODO: Customize helper method
+    public static boolean check_for_patient_fall(List<RestAllResponse> patientHealth) {
+        if (patientHealth.size() > 0) {
+            for (RestAllResponse patientHealth1:patientHealth) {
+                if(patientHealth1.FallDetection.equalsIgnoreCase("1") == true) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean check_for_patient_low_battery(List<RestAllResponse> patientHealth) {
+        if (patientHealth.size() > 0) {
+            for (RestAllResponse patientHealth1:patientHealth) {
+                float bat_volage = Float.parseFloat(patientHealth1.Bat_VTG);
+                if(bat_volage <2.8) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public static void startActionBaz(Context context, String param1, String param2) {
         Intent intent = new Intent(context, RestFetcher.class);
-        intent.setAction(ACTION_BAZ);
+        intent.setAction(ACTION_ALERT);
         intent.putExtra(EXTRA_PARAM1_REQ_TYPE, param1);
         intent.putExtra(EXTRA_PARAM2_CURSOR, param2);
         context.startService(intent);
@@ -148,11 +169,61 @@ public class RestFetcher extends IntentService {
         });
 
     }
+    public void check_patient_info_for_alert(Api api, String patient_id, String cursor) {
+        Log.i(TAG, "check_patient_info_for_alert ... alert_cursor="+ alert_cursor+" patient id= "+ patient_id);
+        Call<List<RestAllResponse>> call = api.getPatientWithId(patient_id, String.valueOf(alert_cursor));
+        DcareAppCtx ctx = (DcareAppCtx) RestFetcher.this.getApplicationContext();
+        call.enqueue(new Callback<List<RestAllResponse>>() {
+            @Override
+            public void onResponse(Call<List<RestAllResponse>> call, Response<List<RestAllResponse>> response) {
+                DcareAppCtx ctx = (DcareAppCtx) RestFetcher.this.getApplicationContext();
+                List<RestAllResponse> patientHealth = response.body();
+                String result = "";
+
+                /*for(RestAllResponse patientHealth1:patientHealth) {
+                    result += patientHealth1.Date_n_Time + " "+ patientHealth1.Patient_Id +"\n";
+                }*/
+                int len = patientHealth.size();
+                if (len >0){
+                    alert_cursor += len;
+                }
+                if (alert_iter_cnt==0) {
+                    alert_iter_cnt++;
+                    return;
+                }
+                boolean did_fall = check_for_patient_fall(patientHealth);
+                if(did_fall) {
+                    Log.i(TAG, "triggering notification from restFetcher");
+                    FallNotification fallNotification = new FallNotification();
+                    fallNotification.notify(getApplication().getBaseContext(), ctx.user_name+ " felldown", 0);
+                }
+                /*
+                Log.i(TAG, "Rest response success= len = " + String.valueOf(len));
+                Intent in = new Intent(ACTION_ALERT);
+                in.putExtra("resultCode", Activity.RESULT_OK);
+                in.putExtra("LIST", (Serializable) patientHealth);
+                //in.putExtra("resultValue", result);
+                //in.putExtra("resultValue", "My Result Value. Passed in: " + patientHealth.get(0).Date_n_Time);
+                //in.putExtra("resultValue", "============\n" + result+ "=======================\n");
+
+                LocalBroadcastManager.getInstance(RestFetcher.this).sendBroadcast(in);
+                */
+            }
+
+            @Override
+            public void onFailure(Call<List<RestAllResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Rest fail..");
+                //Toast.makeText(MainActivity.this, "Failed to connect to server..", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.i(TAG, "onHandleIntent called");
         if (intent != null) {
-            final String action = intent.getAction();Log.i(TAG, "onHandleIntent action=" + action);
+            final String action = intent.getAction();
             Log.i(TAG, "onHandleIntent action=" + action);
             final String req_type = intent.getStringExtra(EXTRA_PARAM1_REQ_TYPE);
             final String cursor = intent.getStringExtra(EXTRA_PARAM2_CURSOR);
@@ -162,6 +233,9 @@ public class RestFetcher extends IntentService {
                     .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
                     .build();
             Api api = retrofit.create(Api.class);
+            if (action.equalsIgnoreCase(this.ACTION_ALERT) == true) {
+                check_patient_info_for_alert(api, req_type, cursor);
+            }
             if (req_type.equalsIgnoreCase("all") == true) {
                 get_all_patient_request(api, cursor);
             } else {

@@ -76,7 +76,12 @@ public class patientHealth extends AppCompatActivity {
                 List<RestAllResponse> patientHealth = (List<RestAllResponse>) intent.getSerializableExtra("LIST");
                 String result="";
                 for(RestAllResponse patientHealth1:patientHealth) {
-                    result += patientHealth1.Date_n_Time + " "+ patientHealth1.Patient_Id +"\n";
+                    result += patientHealth1.Date_n_Time + " "+
+                              "pid="+patientHealth1.Patient_Id + " " +
+                              "cal="+patientHealth1.Calorie +    " " +
+                              "step="+patientHealth1.StepCount +  " " +
+                              "heart="+patientHealth1.HeartBeat +  "\n" +
+                              "------------------------------------------\n";
                 }
                 //Log.i(TAG, "reveived from service: " + resultValue);
                 TextView patientHealth_view = (TextView)findViewById(R.id.patient_health_scroll_view);

@@ -23,7 +23,7 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
         DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
         Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.user_id);
         Intent i = new Intent(this, RestFetcher.class);
-        i.setAction("com.example.myapplication.action.GET_ALL");
+        i.setAction(RestFetcher.ACTION_GET_ALL);
 
         // Add extras to the bundle
         i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
@@ -37,14 +37,13 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
         // Register for the particular broadcast based on ACTION string
         IntentFilter filter = new IntentFilter(RestFetcher.ACTION_GET_ALL);
         LocalBroadcastManager.getInstance(this).registerReceiver(testReceiver, filter);
-        // or `registerReceiver(testReceiver, filter)` for a normal broadcast
+
     }
     @Override
     protected void onPause() {
         super.onPause();
         // Unregister the listener when the application is paused
         LocalBroadcastManager.getInstance(this).unregisterReceiver(testReceiver);
-        // or `unregisterReceiver(testReceiver)` for a normal broadcast
     }
 
     // Define the callback for what to do when data is received
@@ -57,6 +56,16 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
                 //String resultValue = intent.getStringExtra("resultValue");
                 List<RestAllResponse> patientHealth = (List<RestAllResponse>) intent.getSerializableExtra("LIST");
                 String result="";
+                TextView cal_text = findViewById(R.id.Calorie_Rate);
+                TextView step_text = findViewById(R.id.Step_Count);
+                TextView heart_text = findViewById(R.id.Hearth_Beat);
+                if (patientHealth.size()>0) {
+                    int last_record = patientHealth.size()-1;
+                    cal_text.setText(patientHealth.get(last_record).Calorie);
+                    step_text.setText(patientHealth.get(last_record).StepCount);
+                    heart_text.setText(patientHealth.get(last_record).HeartBeat);
+                }
+                Log.i(TAG, "set cal_text");
                 for(RestAllResponse patientHealth1:patientHealth) {
                     result += patientHealth1.Date_n_Time + " "+ patientHealth1.Patient_Id +"\n";
                 }
@@ -69,7 +78,7 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
                     Log.d(TAG,"finishing sleep...");
                 }
                 Intent i = new Intent(PatientSpecificInfo2.this, RestFetcher.class);
-
+                i.setAction(RestFetcher.ACTION_GET_ALL);
                 i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
 
 

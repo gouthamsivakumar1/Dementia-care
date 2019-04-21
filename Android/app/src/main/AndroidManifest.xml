@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,7 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PatientSpecificInfo2"></activity>
+        <receiver
+            android:name=".MyAlarmReceiver2"
+            android:enabled="true"
+            android:exported="true"
+            ></receiver>
+
+        <activity android:name=".PatientSpecificInfo2" />
         <activity
             android:name=".patientHealth"
             android:label="@string/title_activity_patient_health"
@@ -26,6 +33,10 @@
         <service
             android:name=".RestFetcher"
             android:exported="false" />
+
+        <!--receiver
+            android:name=".MyAlarmReceiver"
+            android:process=":remote"></receiver-->
 
         <activity android:name=".AddReminderActivity" />
         <activity android:name=".MainActivity2" />

@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        FallNotification fall= new FallNotification();
+        fall.createNotificationChannel(this);
 
     }
     public void sendMsg (View view)
@@ -71,10 +74,14 @@ public class MainActivity extends Activity {
                     DcareAppCtx ctx = (DcareAppCtx) MainActivity.this.getApplicationContext();
                     ctx.user_id = Integer.parseInt(pId);
                     ctx.setUser_category(uCategory);
+                    ctx.user_name = patientList.get(0).Patient_Name;
+                    ctx.cursor = 0;
                     Intent intent = new Intent(MainActivity.this, userlogin.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
+                    FallNotification fallNotification = new FallNotification();
+                    fallNotification.notify(MainActivity.this, "example string", 0);
                 }
                 //now we can do whatever we want with this list
             }
