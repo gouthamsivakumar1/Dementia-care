@@ -81,9 +81,37 @@ def patient_data_handler(jsonData):
     except Exception as e:
         print("Exception in db insert = ", str(e))
 
-def sensor_Data_Handler(Topic, jsonData):
+def convert_string_to_list_of_json(input_s):
+    multiple_records= input_s.split("##")
+    list_of_list_record = list()
+    for record in multiple_records:
+        l = record.split('|')
+        list_of_list_record.append(l)
+
+    print(list_of_list_record)
+
+    sensor_data_list = list()
+    for record in list_of_list_record:
+        sensor_data ={}
+        sensor_data['Date_n_Time'] = record[0]
+        sensor_data['HospitalId'] =  record[1]
+        sensor_data['ReaderId']   =  record[2]
+        sensor_data['Patient_Id']   = record[3]
+        sensor_data['Calorie']   = record[4]
+        sensor_data['HeartBeat']   = record[5]
+        sensor_data['StepCount']   = record[6]
+        sensor_data['Bat_VTG']   = record[7]
+        sensor_data['rssi']   = record[8]
+        sensor_data['FallDetection']   = record[9]
+        sensor_data_json = json.dumps(sensor_data)
+        sensor_data_list.append(sensor_data_json)
+    return sensor_data_list
+
+def sensor_Data_Handler(Topic, input_s):
     print("received sensor_Data_Handler... got it")
-    patient_data_handler(jsonData)
+    json_list = convert_string_to_list_of_json(input_s)
+    for j in json_list:
+        patient_data_handler(j)
 
 def on_message(client, userdata, msg):
     time.sleep(1)
