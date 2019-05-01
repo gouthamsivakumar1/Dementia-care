@@ -102,5 +102,5 @@ api.add_resource(PatientLogin, '/patient-login/<patient_id>/<patient_passwd>')
 
 
 if __name__ == '__main__':
-     app.run()
+     app.run("0.0.0.0")
 
