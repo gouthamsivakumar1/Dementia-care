@@ -53,7 +53,7 @@ public class LocationTracker extends AppCompatActivity {
     static int top_min_val = 100;
     static int top_max_val = 1000;
     static int top_reset_val = 500;
-
+/*
     public int calculate_location_point(int reader1, int reader2) {
         int reader_val = 0;
         if (reader1 != 0 && reader2 != 0) {
@@ -70,20 +70,49 @@ public class LocationTracker extends AppCompatActivity {
             }
         }
         int onepiece = (top_max_val - top_min_val)/100;
-        Log.i(TAG, "one_piece="+String.valueOf(onepiece));
 
         if (reader_val==0) { // No value could be derived
             return top_reset_val;
         } else {
             if (reader1 == reader_val) {
-                int reader_percentage = (int)(((float)(reader_val-39)/60)*100);
+                int reader_percentage = (int)(((float)(reader_val-40)/60)*100);
 
-                Log.i(TAG, "reader_percentage="+String.valueOf(reader_percentage));
+                Log.i(TAG, "reader1_percentage="+String.valueOf(reader_percentage));
                 int reader_calculated_val = top_min_val + (onepiece * reader_percentage);
                 return reader_calculated_val;
             } else {
-                int reader_percentage = ((reader_val-39)/60)*100;
+                Log.i(TAG, "reader_val just before reader2 percentage:"+String.valueOf(reader_val));
+                int reader_percentage = (int)(((float)(reader_val-40)/60)*100);
+                Log.i(TAG, "reader2_percentage="+String.valueOf(reader_percentage));
                 int reader_calculated_val = top_max_val - (onepiece * reader_percentage);
+                return reader_calculated_val;
+            }
+        }
+    }
+*/
+    public int calculate_location_point_new(int reader1, int reader2) {
+        int reader_val = 0;
+        if (reader1 == reader2) return top_reset_val;
+        if (reader1 > reader2) {
+            reader_val = reader1;
+        } else {
+            reader_val = reader2;
+        }
+        int onepercentage = (top_max_val - top_min_val)/100;
+
+        if (reader_val==0) { // No value could be derived
+            return top_reset_val;
+        } else {
+            if (reader1 == reader_val) {
+                int reader_percentage = (int)(((float)(reader_val-40)/60)*100);
+
+                Log.i(TAG, "reader1_percentage="+String.valueOf(reader_percentage));
+                int reader_calculated_val = top_min_val + (onepercentage * reader_percentage);
+                return reader_calculated_val;
+            } else {
+                int reader_percentage = (int)(((float)(reader_val-40)/60)*100);
+                Log.i(TAG, "reader2_percentage="+String.valueOf(reader_percentage));
+                int reader_calculated_val = top_max_val - (onepercentage * reader_percentage);
                 return reader_calculated_val;
             }
         }
@@ -107,7 +136,8 @@ public class LocationTracker extends AppCompatActivity {
                 int reader2 = 0;
                 List<RestAllResponse> patientHealth = (List<RestAllResponse>) intent.getSerializableExtra("LIST");
                 if (patientHealth.size() > 0) {
-                    for(RestAllResponse ph:patientHealth) {
+                    //for(RestAllResponse ph:patientHealth) {
+                    RestAllResponse ph = patientHealth.get(patientHealth.size()-1);
                         if (ph.ReaderId.equalsIgnoreCase("reader1")) {
                             reader1=Integer.parseInt(ph.RSSI);
                             Log.i(TAG, "patient location reader1: "+String.valueOf(reader1));
@@ -116,9 +146,9 @@ public class LocationTracker extends AppCompatActivity {
                             reader2=Integer.parseInt(ph.RSSI);
                             Log.i(TAG, "patient location reader2: "+String.valueOf(reader2));
                         }
-                    }
+                    //}
                 }
-                int location_on_map = calculate_location_point(reader1, reader2);
+                int location_on_map = calculate_location_point_new(reader1, reader2);
                 params.topMargin = location_on_map;
                 location_drop.setLayoutParams(params);
                 location_layout.addView(location_drop);
