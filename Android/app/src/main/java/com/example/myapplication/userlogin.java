@@ -56,6 +56,12 @@ public class userlogin extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public void patient_location(View v)
+    {
+        Log.i(TAG, "hit patient_location tracker");
+        Intent intent =new Intent(this, LocationTracker.class);
+        startActivity(intent);
+    }
     public void start_alarm_service()
     {
         // Construct an intent that will execute the AlarmReceiver

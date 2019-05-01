@@ -13,11 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LocationTracker"></activity>
+
         <receiver
             android:name=".MyAlarmReceiver2"
             android:enabled="true"
-            android:exported="true"
-            ></receiver>
+            android:exported="true" />
 
         <activity android:name=".PatientSpecificInfo2" />
         <activity
@@ -33,11 +34,11 @@
         <service
             android:name=".RestFetcher"
             android:exported="false" />
-
-        <!--receiver
+        <!--
+receiver
             android:name=".MyAlarmReceiver"
-            android:process=":remote"></receiver-->
-
+            android:process=":remote"></receiver
+        -->
         <activity android:name=".AddReminderActivity" />
         <activity android:name=".MainActivity2" />
         <activity android:name=".userlogin" />

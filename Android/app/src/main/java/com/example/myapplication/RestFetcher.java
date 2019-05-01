@@ -29,7 +29,7 @@ public class RestFetcher extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     public static final String ACTION_GET_ALL = "com.example.myapplication.action.GET_ALL";
-    public static final String ACTION_ALERT = "com.example.myapplication.action.BAZ";
+    public static final String ACTION_ALERT = "com.example.myapplication.action.ACTION_ALERT";
     public static int alert_cursor=0;
     public static int alert_iter_cnt=0;
     // TODO: Rename parameters
