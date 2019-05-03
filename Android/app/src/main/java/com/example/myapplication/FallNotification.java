@@ -51,7 +51,7 @@ public class FallNotification {
         Log.i(TAG, "notify hit...");
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
+        final Bitmap picture = BitmapFactory.decodeResource(res, R.mipmap.icons_foreground);
 
 
         final String ticker = exampleString;
@@ -59,6 +59,8 @@ public class FallNotification {
                 R.string.fall_notification_title_template, exampleString);
         final String text = res.getString(
                 R.string.fall_notification_placeholder_text_template, exampleString);
+
+
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
 
@@ -68,7 +70,7 @@ public class FallNotification {
 
                 // Set required fields, including the small icon, the
                 // notification title, and text.
-                .setSmallIcon(R.drawable.ic_stat_fall)
+                .setSmallIcon(R.mipmap.icons_foreground)
                 .setContentTitle(title)
                 .setContentText(text)
 
@@ -112,7 +114,7 @@ public class FallNotification {
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(text)
                         .setBigContentTitle(title)
-                        .setSummaryText("Dummy summary text"))
+                        .setSummaryText("Dementia Care System"))
 
                 // Example additional actions for this notification. These will
                 // only show on devices running Android 4.1 or later, so you
@@ -155,7 +157,7 @@ public class FallNotification {
      * Cancels any notifications of this type previously shown using
      * {@link #notify(Context, String, int)}.
      */
-    @TargetApi(Build.VERSION_CODES.ECLAIR)
+    /*@TargetApi(Build.VERSION_CODES.ECLAIR)
     public static void cancel(final Context context) {
         final NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -164,7 +166,7 @@ public class FallNotification {
         } else {
             nm.cancel(NOTIFICATION_TAG.hashCode());
         }
-    }
+    }*/
 
     public void createNotificationChannel(Context ctx) {
         // Create the NotificationChannel, but only on API 26+ because
