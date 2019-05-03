@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -24,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 ;
 
 public class MainActivity extends Activity {
+    public EditText usr;
     String TAG="Dcare";
     @Override
     protected void onCreate(Bundle savedInstanceState) {

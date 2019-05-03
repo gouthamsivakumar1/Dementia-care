@@ -197,6 +197,12 @@ public class RestFetcher extends IntentService {
                     FallNotification fallNotification = new FallNotification();
                     fallNotification.notify(getApplication().getBaseContext(), ctx.user_name+ " felldown", 0);
                 }
+               /* boolean batt_low = check_for_patient_low_battery(patientHealth);
+                if(batt_low) {
+                    Log.i(TAG, "triggering notification from restFetcher");
+                    FallNotification fallNotification = new FallNotification();
+                    fallNotification.notify(getApplication().getBaseContext(), ctx.user_name+ " battery down", 1);
+                }*/
                 /*
                 Log.i(TAG, "Rest response success= len = " + String.valueOf(len));
                 Intent in = new Intent(ACTION_ALERT);

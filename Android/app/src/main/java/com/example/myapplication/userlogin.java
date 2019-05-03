@@ -27,6 +27,13 @@ public class userlogin extends AppCompatActivity {
             start_alarm_service();
         }
     }
+    public void patientprofile(View v)
+    {
+        Log.i(TAG, "hit patient_health id");
+        Intent intent =new Intent(this, patient_profile.class);
+        startActivity(intent);
+
+    }
 
     public void sendMsg(View v)
     {

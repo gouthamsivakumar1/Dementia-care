@@ -6,4 +6,9 @@
     <color name="fab_pressed">#546e7a</color>
     <color name="lime_yellow">#FFFFEE</color>
     <color name="green">#0AE011</color>
+    <color name ="pinkgradinet">#41EB12</color>
+    <color name ="ash">#F5F7F5</color>
+    <color name="black">#131212</color>
+    <color name ="dark"></color>
+    <color name="ashdark">#BDBEBB</color>
 </resources>

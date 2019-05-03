@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+
+
+    android:weightSum="3"
+    android:background="@drawable/gradient">
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.8">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/icons_round" />
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.3"
+        >50%
+
+        <TextView
+            android:id="@+id/welcome_cmt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Patient name"
+
+            android:textColor="@color/lime_yellow"
+            android:textSize="36sp"
+            android:textStyle="italic"
+            android:typeface="monospace"
+            app:fontFamily="sans-serif-condensed" />
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.3"
+        >50%</LinearLayout>
+    <LinearLayout
+        android:background="@drawable/border1"
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.5"
+        >
+        <TextView
+            android:background="@color/pinkgradinet"
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="109dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+
+            android:background="#F2F3F1"
+            android:src="@drawable/hospital"
+            android:textSize="25sp"
+            app:fontFamily="sans-serif-black" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:layout_gravity="top"
+                    android:paddingLeft="10dp"
+                    android:text="Hospital_Id"
+                    android:textColor="#8E8F8C"
+                    android:textSize="20dp"
+                    app:fontFamily="sans-serif-black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/hospital_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="cosmo hospital"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:fontFamily="sans-serif-black" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/border1"
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+
+        android:layout_weight="0.5"
+        >
+        <TextView
+            android:background="@color/pinkgradinet"
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+
+        <ImageView
+            android:layout_width="109dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+
+            android:background="@color/ash"
+            android:src="@drawable/person2"
+            android:textSize="25sp"
+            app:fontFamily="sans-serif-black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Bystander name"
+                    android:textColor="@color/ashdark"
+                    android:textSize="20dp"
+                    app:fontFamily="sans-serif-black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/bystanders_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="renin"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:fontFamily="sans-serif-black" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/border1"
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        >
+        <TextView
+            android:background="@color/pinkgradinet"
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+
+        <ImageView
+            android:layout_width="109dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+
+            android:background="@color/ash"
+            android:src="@drawable/id"
+            android:textSize="25sp"
+            app:fontFamily="sans-serif-black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:id="@+id/patient_id1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="Patient Id"
+                    android:textColor="@color/ashdark"
+                    android:textSize="20dp"
+                    app:fontFamily="sans-serif-black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/patient_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:paddingLeft="10dp"
+                    android:text="1001"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:fontFamily="sans-serif-black" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

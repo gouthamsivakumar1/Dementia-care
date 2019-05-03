@@ -17,7 +17,7 @@
         android:layout_marginEnd="200dp"
         android:layout_marginRight="169dp"
         android:layout_marginBottom="150dp"
-        android:src="@drawable/vv" />
+        android:src="@drawable/navigation" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
