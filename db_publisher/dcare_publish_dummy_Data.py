@@ -12,9 +12,8 @@ Keep_Alive_Interval = 45
 
 #====================================================
 
-def on_connect(client, userdata, rc):
+def on_connect(client, udata, rc):
     if rc != 0:
-        pass
         print "Unable to connect to MQTT Broker..."
     else:
         print "Connected with MQTT Broker: " + str(MQTT_Broker)
@@ -59,7 +58,7 @@ def publish_fake_sensor_values_to_mqtt():
     threading.Timer(3.0, publish_fake_sensor_values_to_mqtt).start()
     sensor_data = OrderedDict()
     sensor_data['Date_n_Time'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
-    sensor_data['HospitalId'] = "cosmo hospital" 
+    sensor_data['HospitalId'] = "cosmohospital" 
     sensor_data['ReaderId']   = random_select(reader_list)
     sensor_data['Patient_Id']   = random_select(patient_id_list)
     sensor_data['Calorie']   = "40"
@@ -80,25 +79,26 @@ def publish_fake_sensor_values_to_mqtt_one_time():
     global step_count
     #threading.Timer(3.0, publish_fake_sensor_values_to_mqtt).start()
     sensor_data = OrderedDict()
-    sensor_data['Date_n_Time'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
-    sensor_data['HospitalId'] = "cosmo hospital" 
-    #sensor_data['ReaderId']   = random_select(reader_list)
+    sensor_data['HospitalId'] = "cosmohospital" 
     sensor_data['ReaderId']   = "reader1"
-    sensor_data['Patient_Id']   = 1001
-    sensor_data['Calorie']   = "150"
+    sensor_data['Date_n_Time'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
+    #sensor_data['ReaderId']   = random_select(reader_list)
     sensor_data['HeartBeat']   = random_select(heart_beat)
+    sensor_data['Patient_Id']   = 1001
     sensor_data['StepCount']   = step_count+25
     step_count += 25
-    sensor_data['Bat_VTG']   = "2"
-    sensor_data['rssi']   = "40"
-    #sensor_data['rssi']   = random_select(rssi)
+    sensor_data['Calorie']   = "150"
+    sensor_data['Temparature']   = "33"
     sensor_data['FallDetection']   = "1"
-    val = ""
+    sensor_data['Bat_VTG']   = "2"
+    sensor_data['RSSI']   = "40"
+    #sensor_data['rssi']   = random_select(rssi)
+    val_1 = ""
     for v in sensor_data.values():
-        val = val+str(v) +'|'
-    print(val[0:-1])
+        val_1 = val_1+str(v) +'|'
+    print(val_1[0:-1])
 
-    publish_topic(MQTT_Topic, val)
+    publish_topic(MQTT_Topic, val_1[0:-1])
 
 #publish_fake_sensor_values_to_mqtt()
 publish_fake_sensor_values_to_mqtt_one_time()

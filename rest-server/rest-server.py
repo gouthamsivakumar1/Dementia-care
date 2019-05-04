@@ -4,33 +4,19 @@ from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
 from collections import OrderedDict 
-
+from dcare_db_format import db_live_data_format
 db_connect = create_engine('sqlite:///../db_publisher/dcare_live.db')
 app = Flask(__name__)
 api = Api(app)
-
-schema_list = [
-  'Date_n_Time',
-  'HospitalId',
-  'ReaderId',
-  'Patient_Id',
-  'Calorie',
-  'HeartBeat',
-  'StepCount',
-  'Bat_VTG',
-  'RSSI',
-  'FallDetection' 
-]
-
 
 
 def convert_db_to_json(db_list, field=None):
     new_list = list()
     for record in db_list:
         d = OrderedDict()
-        for idx in range(0, len(schema_list)):
+        for idx in range(0, len(db_live_data_format)):
         #for idx, column in enumurate(schema_list):
-            d[schema_list[idx]] = record[idx+1]
+            d[db_live_data_format[idx]] = record[idx+1]
         #print("d[schema_list[idx]] = ", d)
         #print("field = ", field)
         if field == 'all':
@@ -47,10 +33,7 @@ class PatientAll(Resource):
         query = conn.execute("select * from PATIENT_LIVE_DATA") # This line performs query and returns json result
         try:
             l = query.cursor.fetchall()
-            print("len(l)=", len(l), "l= ", l)
-            print("cursor=", int(cursor))
             new_list = l[int(cursor):]
-            print("len(new_list)=", len(new_list), "new_list=", new_list)
             db_list = convert_db_to_json(new_list, 'all')
             #return {'all': db_list}
             return db_list

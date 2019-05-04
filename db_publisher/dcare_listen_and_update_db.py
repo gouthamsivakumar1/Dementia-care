@@ -1,6 +1,6 @@
 import time
 import paho.mqtt.client as paho
-
+import dcare_db_format as data_format
 import json
 import sqlite3
 
@@ -8,19 +8,6 @@ import sqlite3
 DB_Name =  "dcare_live.db"
 
 broker="localhost"
-
-Table_schema_elements= """
-  Date_n_Time text,
-  HospitalId text,
-  ReaderId text,
-  Patient_Id text,
-  Calorie text,
-  HeartBeat text,
-  StepCount text,
-  Bat_VTG text,
-  RSSI text,
-  FallDetection text
-"""
 
 #===============================================================
 # Database Manager Class
@@ -51,29 +38,8 @@ def patient_data_handler(jsonData):
     sensor_data = json.loads(jsonData)
     dbObj = DatabaseManager()
     try:
-        dbObj.add_del_update_db_record("INSERT INTO PATIENT_LIVE_DATA (\
-  Date_n_Time,\
-  HospitalId,\
-  ReaderId,\
-  Patient_Id,\
-  Calorie,\
-  HeartBeat,\
-  StepCount,\
-  Bat_VTG,\
-  RSSI,\
-  FallDetection\
-  ) VALUES(?,?,?,?,?,?,?,?,?,?)",[
-    sensor_data['Date_n_Time'], 
-    sensor_data['HospitalId'],
-    sensor_data['ReaderId'],   
-    sensor_data['Patient_Id'],
-    sensor_data['Calorie'],
-    sensor_data['HeartBeat'],
-    sensor_data['StepCount'],
-    sensor_data['Bat_VTG'],
-    sensor_data['rssi'],
-    sensor_data['FallDetection']
-    ])
+        dbObj.add_del_update_db_record("INSERT INTO PATIENT_LIVE_DATA "
+            + data_format.format_sensor_data(sensor_data))
         del dbObj
         print("patient Data into Database.")
             
@@ -93,16 +59,8 @@ def convert_string_to_list_of_json(input_s):
     sensor_data_list = list()
     for record in list_of_list_record:
         sensor_data ={}
-        sensor_data['Date_n_Time'] = record[0]
-        sensor_data['HospitalId'] =  record[1]
-        sensor_data['ReaderId']   =  record[2]
-        sensor_data['Patient_Id']   = record[3]
-        sensor_data['Calorie']   = record[4]
-        sensor_data['HeartBeat']   = record[5]
-        sensor_data['StepCount']   = record[6]
-        sensor_data['Bat_VTG']   = record[7]
-        sensor_data['rssi']   = record[8]
-        sensor_data['FallDetection']   = record[9]
+        for idx, val in enumerate(data_format.db_live_data_format) :
+            sensor_data[val] = record[idx]
         sensor_data_json = json.dumps(sensor_data)
         sensor_data_list.append(sensor_data_json)
     return sensor_data_list
