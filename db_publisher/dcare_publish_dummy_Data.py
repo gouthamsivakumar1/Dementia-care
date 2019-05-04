@@ -84,7 +84,7 @@ def publish_fake_sensor_values_to_mqtt_one_time():
     sensor_data['Date_n_Time'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
     #sensor_data['ReaderId']   = random_select(reader_list)
     sensor_data['HeartBeat']   = random_select(heart_beat)
-    sensor_data['Patient_Id']   = 1001
+    sensor_data['Patient_Id']   = 1010
     sensor_data['StepCount']   = step_count+25
     step_count += 25
     sensor_data['Calorie']   = "150"

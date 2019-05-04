@@ -93,6 +93,7 @@ public class patientHealth extends AppCompatActivity {
 
                 DcareAppCtx ctx = (DcareAppCtx) patientHealth.this.getApplicationContext();
                 String cursor_str = String.valueOf(ctx.cursor);
+                Log.e(TAG, "In PatientHealth cursor value= "+ctx.cursor);
                 i.putExtra(RestFetcher.EXTRA_PARAM2_CURSOR, cursor_str);
                 // Start the service
                 startService(i);
