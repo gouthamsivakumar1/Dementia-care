@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/icons"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".patient_profile_all"></activity>
         <activity android:name=".patient_profile" />
         <activity android:name=".LocationTracker" />
 
