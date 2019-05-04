@@ -41,9 +41,9 @@ public class userlogin extends AppCompatActivity {
 
     }
 
-    public void sendMsg(View v)
+    public void userReminder(View v)
     {
-        Intent intent =new Intent(this,MainActivity2.class);
+        Intent intent =new Intent(this,MainActivity.class);
         startActivity(intent);
     }
     public void patient_health(View v)

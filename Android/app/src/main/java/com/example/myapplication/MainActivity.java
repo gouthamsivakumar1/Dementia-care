@@ -1,98 +1,116 @@
 package com.example.myapplication;
 
-import android.Manifest;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
+import android.app.LoaderManager;
+import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-import java.util.List;
+import com.example.myapplication.data.AlarmReminderContract;
+import com.example.myapplication.data.AlarmReminderDbHelper;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-;
+    private FloatingActionButton mAddReminderButton;
+    private Toolbar mToolbar;
+    AlarmCursorAdapter mCursorAdapter;
+    AlarmReminderDbHelper alarmReminderDbHelper = new AlarmReminderDbHelper(this);
+    ListView reminderListView;
+    ProgressDialog prgDialog;
 
-public class MainActivity extends Activity {
-    public EditText usr;
-    String TAG="Dcare";
+    private static final int VEHICLE_LOADER = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        FallNotification fall= new FallNotification();
-        fall.createNotificationChannel(this);
 
-    }
-    public void sendMsg (View view)
-    {
-        final EditText usr = (EditText)findViewById(R.id.editText);
-        final EditText pas = (EditText)findViewById(R.id.editText2);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitle(R.string.app_name);
 
-        /*
-        if (usr.getText().toString().equals("admin")&&pas.getText().toString().equals("admin")) {
-            Intent intent = new Intent(this,userlogin.class);
-            startActivity(intent);
-        }
-       else if (usr.getText().toString().equals("dem")&&pas.getText().toString().equals("dem")) {
-            Intent intent = new Intent(this, userlogin.class);
-            startActivity(intent);
-        }
-        else
-            Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
-        */
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
-                .build();
-        Api api = retrofit.create(Api.class);
-        Call<List<RestLoginResponse>> call = api.getPatientLogin(usr.getText().toString(), pas.getText().toString());
-        DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
-        ctx.setUser_name(usr.getText().toString());
-        call.enqueue(new Callback<List<RestLoginResponse>>() {
+
+        reminderListView = (ListView) findViewById(R.id.list);
+        View emptyView = findViewById(R.id.empty_view);
+        reminderListView.setEmptyView(emptyView);
+
+        mCursorAdapter = new AlarmCursorAdapter(this, null);
+        reminderListView.setAdapter(mCursorAdapter);
+
+        reminderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onResponse(Call<List<RestLoginResponse>> call, Response<List<RestLoginResponse>> response) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-                //In this point we got our hero list
-                //thats damn easy right ;)
-                List<RestLoginResponse> patientList = response.body();
+                Intent intent = new Intent(MainActivity.this, AddReminderActivity.class);
 
-                String pId = patientList.get(0).Patient_Id;
-                String uCategory = patientList.get(0).User_Category;
-                Log.i(TAG, "Rest response success, id="+pId+" pCategory ="+uCategory);
-                if (pId.equalsIgnoreCase("unknown") == false) {
-                    DcareAppCtx ctx = (DcareAppCtx) MainActivity.this.getApplicationContext();
-                    ctx.user_id = Integer.parseInt(pId);
-                    ctx.setUser_category(uCategory);
-                    ctx.user_name = patientList.get(0).Patient_Name;
-                    ctx.cursor = 0;
-                    Intent intent = new Intent(MainActivity.this, userlogin.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
-                    FallNotification fallNotification = new FallNotification();
-                    fallNotification.notify(MainActivity.this, "example string", 0);
-                }
-                //now we can do whatever we want with this list
-            }
-            @Override
-            public void onFailure(Call<List<RestLoginResponse>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "Rest fail..");
-                Toast.makeText(MainActivity.this, "Failed to connect to server..", Toast.LENGTH_SHORT).show();
+                Uri currentVehicleUri = ContentUris.withAppendedId(AlarmReminderContract.AlarmReminderEntry.CONTENT_URI, id);
+
+                // Set the URI on the data field of the intent
+                intent.setData(currentVehicleUri);
+
+                startActivity(intent);
+
             }
         });
+
+
+        mAddReminderButton = (FloatingActionButton) findViewById(R.id.fab);
+
+        mAddReminderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddReminderActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        getLoaderManager().initLoader(VEHICLE_LOADER, null, this);
+
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = {
+                AlarmReminderContract.AlarmReminderEntry._ID,
+                AlarmReminderContract.AlarmReminderEntry.KEY_TITLE,
+                AlarmReminderContract.AlarmReminderEntry.KEY_DATE,
+                AlarmReminderContract.AlarmReminderEntry.KEY_TIME,
+                AlarmReminderContract.AlarmReminderEntry.KEY_REPEAT,
+                AlarmReminderContract.AlarmReminderEntry.KEY_REPEAT_NO,
+                AlarmReminderContract.AlarmReminderEntry.KEY_REPEAT_TYPE,
+                AlarmReminderContract.AlarmReminderEntry.KEY_ACTIVE
+
+        };
+
+        return new CursorLoader(this,   // Parent activity context
+                AlarmReminderContract.AlarmReminderEntry.CONTENT_URI,   // Provider content URI to query
+                projection,             // Columns to include in the resulting Cursor
+                null,                   // No selection clause
+                null,                   // No selection arguments
+                null);                  // Default sort order
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mCursorAdapter.swapCursor(cursor);
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+
     }
 }

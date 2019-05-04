@@ -108,15 +108,13 @@ public class RestFetcher extends IntentService {
                     DcareAppCtx ctx = (DcareAppCtx) RestFetcher.this.getApplicationContext();
                     Log.i(TAG, "ctx.cursor= "+ ctx.cursor);
                     ctx.setCursor(String.valueOf(ctx.cursor+len));
+                    Log.e(TAG, "Rest fetcher cursor value= "+ctx.cursor);
                 }
                 Log.i(TAG, "Rest response success= " + result);
                 Intent in = new Intent(ACTION_GET_ALL);
                 in.putExtra("resultCode", Activity.RESULT_OK);
                 //in.putExtra("resultValue", result);
                 in.putExtra("LIST", (Serializable) patientHealth);
-
-                //in.putExtra("resultValue", "My Result Value. Passed in: " + patientHealth.get(0).Date_n_Time);
-                //in.putExtra("resultValue", "============\n" + result+ "=======================\n");
                 LocalBroadcastManager.getInstance(RestFetcher.this).sendBroadcast(in);
             }
 

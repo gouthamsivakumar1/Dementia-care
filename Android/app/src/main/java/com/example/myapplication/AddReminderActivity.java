@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -230,10 +228,6 @@ public class AddReminderActivity extends AppCompatActivity implements
 
     // On clicking Time picker
     public void setTime(View v){
-        if(mCurrentReminderUri == null){
-            Toast.makeText(this, "click again on the reminder list to set time alarm", Toast.LENGTH_LONG).show();
-            return;
-        }
         Calendar now = Calendar.getInstance();
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 this,
@@ -247,10 +241,6 @@ public class AddReminderActivity extends AppCompatActivity implements
 
     // On clicking Date picker
     public void setDate(View v){
-        if(mCurrentReminderUri == null){
-            Toast.makeText(this, "click again on the reminder list to set date alarm", Toast.LENGTH_LONG).show();
-            return;
-        }
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 this,
@@ -684,11 +674,7 @@ public class AddReminderActivity extends AppCompatActivity implements
             mRepeatText.setText("Every " + repeatNo + " " + repeatType + "(s)");
             // Setup up active buttons
             // Setup repeat switch
-            if (repeat == null){
-                mRepeatSwitch.setChecked(false);
-                mRepeatText.setText(R.string.repeat_off);
-            }
-            else if (repeat.equals("false")) {
+            if (repeat.equals("false")) {
                 mRepeatSwitch.setChecked(false);
                 mRepeatText.setText(R.string.repeat_off);
 
@@ -707,5 +693,3 @@ public class AddReminderActivity extends AppCompatActivity implements
     }
 
 }
-
-

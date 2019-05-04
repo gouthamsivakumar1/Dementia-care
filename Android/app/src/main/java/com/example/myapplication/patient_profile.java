@@ -26,7 +26,7 @@ public class patient_profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_profile);
-        MainActivity ctx1= (MainActivity)this.getApplicationContext();
+        DcareMainActivity ctx1= (DcareMainActivity)this.getApplicationContext();
         // welcome_cmt.setText(ctx1.usr.getText().toString());
 
         DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
