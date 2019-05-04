@@ -10,8 +10,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface Api {
-        String BASE_URL ="http://192.168.1.118:5000";
-    //String BASE_URL = "http://10.0.2.2:5000";
+     //   String BASE_URL ="http://192.168.1.118:5000";
+    String BASE_URL = "http://10.0.2.2:5000";
     @GET("all/{cursor}")
     Call<List<RestAllResponse>> getPatientAll(@Path("cursor") String cursor);
     @GET("patient/{patient_id}/{cursor}")

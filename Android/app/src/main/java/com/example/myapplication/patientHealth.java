@@ -48,7 +48,6 @@ public class patientHealth extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
     @Override
     protected void onResume() {
@@ -83,16 +82,9 @@ public class patientHealth extends AppCompatActivity {
                               "heart="+patientHealth1.HeartBeat +  "\n" +
                               "------------------------------------------\n";
                 }
-                //Log.i(TAG, "reveived from service: " + resultValue);
                 TextView patientHealth_view = (TextView)findViewById(R.id.patient_health_scroll_view);
                 patientHealth_view.setText(result + patientHealth_view.getText());
-                //Toast.makeText(patientHealth.this, resultValue, Toast.LENGTH_SHORT).show();
-                try {
-                    Thread.sleep(10000);
-                } catch(InterruptedException ex) {
-                    Log.d(TAG,"finishing sleep...");
 
-                }
                 Intent i = new Intent(patientHealth.this, RestFetcher.class);
                 i.setAction("com.example.myapplication.action.GET_ALL");
 

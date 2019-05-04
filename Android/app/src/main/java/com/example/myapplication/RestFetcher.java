@@ -238,6 +238,11 @@ public class RestFetcher extends IntentService {
                     .baseUrl(Api.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
                     .build();
+            try {
+                Thread.sleep(10000);
+            } catch(InterruptedException ex) {
+                Log.d(TAG,"finishing sleep...");
+            }
             Api api = retrofit.create(Api.class);
             if (action.equalsIgnoreCase(this.ACTION_ALERT) == true) {
                 check_patient_info_for_alert(api, req_type, cursor);

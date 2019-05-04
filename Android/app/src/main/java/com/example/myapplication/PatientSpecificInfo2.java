@@ -62,9 +62,7 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
             DcareAppCtx ctx = (DcareAppCtx) PatientSpecificInfo2.this.getApplicationContext();
-            //TextView welcome_cmt =findViewById(R.id.welcome_cmt);
-            //welcome_cmt.setText("Welcome\t"+ctx.user_name);
-           //MainActivity ctx1 = (MainActivity)  PatientSpecificInfo2.this.getApplicationContext();
+
             if (resultCode == RESULT_OK) {
                 //String resultValue = intent.getStringExtra("resultValue");
                 List<RestAllResponse> patientHealth = (List<RestAllResponse>) intent.getSerializableExtra("LIST");
@@ -76,7 +74,6 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
                 if (patientHealth.size()>0) {
 
 
-                    //Log.i(TAG,"get usrid:"+ctx1.usr);
                     int last_record = patientHealth.size()-1;
 
                     cal_text.setText(patientHealth.get(last_record).Calorie);
@@ -88,13 +85,7 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
                     result += patientHealth1.Date_n_Time + " "+ patientHealth1.Patient_Id +"\n";
                 }
                 Log.i(TAG, "reveived from service: " + result);
-               // TextView patientHealth_view = (TextView)findViewById(R.id.patient_health_scroll_view);
-                //patientHealth_view.setText(result + patientHealth_view.getText());
-                /*try {
-                    Thread.sleep(10000);
-                } catch(InterruptedException ex) {
-                    Log.d(TAG,"finishing sleep...");
-                }*/
+
                 Intent i = new Intent(PatientSpecificInfo2.this, RestFetcher.class);
                 i.setAction(RestFetcher.ACTION_GET_ALL);
                 i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
