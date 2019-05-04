@@ -29,9 +29,15 @@ public class userlogin extends AppCompatActivity {
     }
     public void patientprofile(View v)
     {
-        Log.i(TAG, "hit patient_health id");
-        Intent intent =new Intent(this, patient_profile.class);
-        startActivity(intent);
+        DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
+        if(ctx.user_category == 1||ctx.user_category == 2) {
+            Intent intent = new Intent(this, patient_profile.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, patient_profile_all.class);
+            startActivity(intent);
+        }
 
     }
 
