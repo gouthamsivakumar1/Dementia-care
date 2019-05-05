@@ -41,7 +41,7 @@ public class userlogin extends AppCompatActivity {
 
     }
 
-    public void sendMsg(View v)
+    public void userReminder(View v)
     {
         Intent intent =new Intent(this,MainActivity.class);
         startActivity(intent);

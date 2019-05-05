@@ -27,8 +27,8 @@ public class FallNotification {
      * The unique identifier for this type of notification.
      */
     public static String TAG="Dcare";
-    private static final String NOTIFICATION_TAG = "Fall";
-    private static final String CHANNEL_ID = "DcareChannel";
+    public static final String NOTIFICATION_TAG = "Fall";
+    public static final String CHANNEL_ID = "DcareChannel";
     /**
      * Shows the notification, or updates a previously shown notification of
      * this type, with the given parameters.

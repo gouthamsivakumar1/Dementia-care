@@ -52,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setSupportActionBar(mToolbar);
         mToolbar.setTitle(R.string.app_name);
 
-
+        FallNotification fall= new FallNotification();
+        fall.createNotificationChannel(this);
         reminderListView = (ListView) findViewById(R.id.list);
         reminderText = (TextView) findViewById(R.id.reminderText);
         View emptyView = findViewById(R.id.empty_view);

@@ -70,17 +70,17 @@ public class patient_profile_all extends AppCompatActivity {
                 String result="{";
                 String result1="";
                 String result2="";
-                String item[]= new String[6];
+                //String item[]= new String[6];
                 for(RestAllResponse patientHealth1:patientHealth) {
 
-                    ListView simpleList;
+                    /*ListView simpleList;
                     for(int i=0;i<6;i++) {
                         BufferedReader bo = new BufferedReader(new InputStreamReader(System.in));
                          String name1=patientHealth.get(i).Date_n_Time;
                           item[i] =name1;
-                    }
+                    }*/
 
-
+                    String item[] = {"1","2","3","4","5","6"};
                     String  SubItem[] = {"The apple tree is a deciduous tree in the rose family best known for its sweet, pomaceous fruit, the apple.",
                             "The banana is an edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa.",
                             "The lemon, Citrus limon Osbeck, is a species of small evergreen tree in the flowering plant family Rutaceae, native to Asia.",
@@ -91,9 +91,9 @@ public class patient_profile_all extends AppCompatActivity {
                     //result += patientHealth1.Patient_Id+"\n";
                     //result1+= ctx1.user_name+"\n";
                     //result2+=patientHealth1.HospitalId+"\n";
-                    simpleList = (ListView)findViewById(R.id.ListView);
+                    //simpleList = (ListView)findViewById(R.id.ListView);
                     CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(),item,SubItem, flags);
-                    simpleList.setAdapter(customAdapter);
+                    //simpleList.setAdapter(customAdapter);
                 }
 
                 //TextView patientHealth_view = (TextView)findViewById(R.id.patient_name1);

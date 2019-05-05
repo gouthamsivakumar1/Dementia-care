@@ -8,17 +8,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.example.myapplication.AddReminderActivity;
+import com.example.myapplication.FallNotification;
 import com.example.myapplication.R;
 import com.example.myapplication.data.AlarmReminderContract;
 
 
 public class ReminderAlarmService extends IntentService {
-    private static final String TAG = ReminderAlarmService.class.getSimpleName();
+    private static final String TAG = "Dcare";
 
     private static final int NOTIFICATION_ID = 42;
 
@@ -35,7 +38,7 @@ public class ReminderAlarmService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        Log.i(TAG, "on Reminder onHandleIntent hit...");
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Uri uri = intent.getData();
 
@@ -59,7 +62,7 @@ public class ReminderAlarmService extends IntentService {
             }
         }
 
-        Notification note = new NotificationCompat.Builder(this)
+        Notification note = new NotificationCompat.Builder(this, FallNotification.CHANNEL_ID)
                 .setContentTitle(getString(R.string.reminder_title))
                 .setContentText(description)
                 .setSmallIcon(R.drawable.ic_add_alert_black_24dp)
@@ -68,7 +71,6 @@ public class ReminderAlarmService extends IntentService {
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setAutoCancel(true)
                 .build();
-
-        manager.notify(NOTIFICATION_ID, note);
+        manager.notify(FallNotification.NOTIFICATION_TAG, 0, note);
     }
 }
