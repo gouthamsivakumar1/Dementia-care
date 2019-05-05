@@ -15,9 +15,6 @@ import com.example.myapplication.AddReminderActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.data.AlarmReminderContract;
 
-/**
- * Created by delaroy on 9/22/17.
- */
 
 public class ReminderAlarmService extends IntentService {
     private static final String TAG = ReminderAlarmService.class.getSimpleName();
