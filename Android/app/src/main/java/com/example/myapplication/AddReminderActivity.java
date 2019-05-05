@@ -228,6 +228,10 @@ public class AddReminderActivity extends AppCompatActivity implements
 
     // On clicking Time picker
     public void setTime(View v){
+        if(mCurrentReminderUri == null){
+            Toast.makeText(this, "click again on the reminder list to set time alarm", Toast.LENGTH_LONG).show();
+            return;
+        }
         Calendar now = Calendar.getInstance();
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 this,
@@ -241,6 +245,10 @@ public class AddReminderActivity extends AppCompatActivity implements
 
     // On clicking Date picker
     public void setDate(View v){
+        if(mCurrentReminderUri == null){
+            Toast.makeText(this, "click again on the reminder list to set date alarm", Toast.LENGTH_LONG).show();
+            return;
+        }
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 this,
@@ -494,7 +502,7 @@ public class AddReminderActivity extends AppCompatActivity implements
             // Pass in null for the selection and selection args because the mCurrentreminderUri
             // content URI already identifies the reminder that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentReminderUri, null, null);
-
+            new AlarmScheduler().cancelAlarm(getApplicationContext(), mCurrentReminderUri);
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
                 // If no rows were deleted, then there was an error with the delete.
@@ -674,10 +682,13 @@ public class AddReminderActivity extends AppCompatActivity implements
             mRepeatText.setText("Every " + repeatNo + " " + repeatType + "(s)");
             // Setup up active buttons
             // Setup repeat switch
-            if (repeat.equals("false")) {
+            //if (repeat.equals("false")) {
+            if (repeat == null){
                 mRepeatSwitch.setChecked(false);
                 mRepeatText.setText(R.string.repeat_off);
-
+            } else if (repeat.equals("false")) {
+                mRepeatSwitch.setChecked(false);
+                mRepeatText.setText(R.string.repeat_off);
             } else if (repeat.equals("true")) {
                 mRepeatSwitch.setChecked(true);
             }

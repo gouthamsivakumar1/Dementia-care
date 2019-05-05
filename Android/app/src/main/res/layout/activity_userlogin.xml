@@ -124,7 +124,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="sendMsg"/>
+                    android:onClick="userReminder"/>
                 <TextView
                     android:text="Reminder"
                     android:textColor="@android:color/black"
