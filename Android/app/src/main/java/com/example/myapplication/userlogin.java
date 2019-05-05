@@ -22,7 +22,7 @@ public class userlogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
         DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
-        Log.i(TAG, "user_name= "+ctx.user_name + " use id= "+ ctx.user_id+" cat="+ctx.user_category);
+        Log.i(TAG, "user_name= "+ctx.user_name + " use id= "+ ctx.patient_id+" cat="+ctx.user_category);
         if (ctx.user_category == 2) {
             start_alarm_service();
         }

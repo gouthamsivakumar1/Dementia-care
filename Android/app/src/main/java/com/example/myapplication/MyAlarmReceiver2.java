@@ -13,11 +13,11 @@ public class MyAlarmReceiver2 extends BroadcastReceiver {
         // an Intent broadcast.
         Log.i(TAG, "MyAlarmReceiver2 onReceive called...");
         DcareAppCtx ctx = (DcareAppCtx) context.getApplicationContext();
-        Log.i(TAG, "MyAlarmReceiver2 ctx.user_id="+ctx.user_id+" cursor="+ctx.cursor);
+        Log.i(TAG, "MyAlarmReceiver2 ctx.user_id="+ctx.patient_id+" cursor="+ctx.cursor);
 
         Intent i = new Intent(context, RestFetcher.class);
         i.setAction(RestFetcher.ACTION_ALERT);
-        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
+        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
 
         String cursor_str = String.valueOf(ctx.cursor);
         i.putExtra(RestFetcher.EXTRA_PARAM2_CURSOR, cursor_str);

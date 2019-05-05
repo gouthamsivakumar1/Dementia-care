@@ -60,6 +60,24 @@ def get_patient_name_from_category(patient_id, patient_name):
             return row[2]
     return 'unknown'
 
+def get_patient_bystander_name(patient_id):
+    conn = db_connect.connect() # connect to database
+    query = conn.execute("select * from PATIENT_INFO_DB")
+    l = query.cursor.fetchall()
+    for row in l:
+        if patient_id in row and "bystander" in row:
+            return row[2]
+    return 'unknown'
+
+def get_hospital_name():
+    conn = db_connect.connect() # connect to database
+    query = conn.execute("select * from PATIENT_LIVE_DATA")
+    l = query.cursor.fetchall()
+    for row in l:
+        #row[0] is coloum id
+        return row[1]
+    return 'unknown'
+
 class PatientLogin(Resource):
     def get(self, patient_id, patient_passwd):
         conn = db_connect.connect() # connect to database
@@ -72,11 +90,15 @@ class PatientLogin(Resource):
                 patient_name = get_patient_name_from_category(patient_id, user_cat)
                 return [{'Patient_Id': patient_id,
                          'Patient_Name':patient_name,
-                         'User_Category':user_cat
+                         'ByStander_Name':get_patient_bystander_name(patient_id),
+                         'User_Category':user_cat,
+                         'Hospital_name':get_hospital_name()
                         }]
         return [{'Patient_Id': 'unknown',
                  'Patient_Name':'unknown',
-                 'User_Category': 'unknown'
+                 'ByStander_Name': 'unknown',
+                 'User_Category': 'unknown',
+                 'Hospital_name': 'unknown'
                 }]
 
 api.add_resource(PatientAll, '/all/<cursor>')

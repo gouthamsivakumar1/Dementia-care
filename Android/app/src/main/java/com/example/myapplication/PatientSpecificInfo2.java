@@ -29,12 +29,12 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
        // welcome_cmt.setText(ctx1.usr.getText().toString());
 
         DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
-        Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.user_id);
+        Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.patient_id);
         Intent i = new Intent(this, RestFetcher.class);
         i.setAction(RestFetcher.ACTION_GET_ALL);
 
         // Add extras to the bundle
-        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
+        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
         i.putExtra(RestFetcher.EXTRA_PARAM2_CURSOR, "0");
         // Start the service
         startService(i);
@@ -88,7 +88,7 @@ public class PatientSpecificInfo2 extends AppCompatActivity {
 
                 Intent i = new Intent(PatientSpecificInfo2.this, RestFetcher.class);
                 i.setAction(RestFetcher.ACTION_GET_ALL);
-                i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
+                i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
 
 
                 String cursor_str = String.valueOf(ctx.cursor);

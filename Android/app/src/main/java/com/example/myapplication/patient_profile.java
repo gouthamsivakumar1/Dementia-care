@@ -20,25 +20,33 @@ public class patient_profile extends AppCompatActivity {
     public String TAG="Dcare";
     //public TextView welcome_cmt =findViewById(R.id.welcome_cmt);
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_profile);
-        DcareMainActivity ctx1= (DcareMainActivity)this.getApplicationContext();
+        //DcareMainActivity ctx1= (DcareMainActivity)this.getApplicationContext();
         // welcome_cmt.setText(ctx1.usr.getText().toString());
-
+        TextView welcome_cmt =findViewById(R.id.welcome_cmt);
         DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
-        Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.user_id);
-        Intent i = new Intent(this, RestFetcher.class);
-        i.setAction(RestFetcher.ACTION_GET_ALL);
+        welcome_cmt.setText("Welcome\t"+ctx.user_name);
+        TextView hos_text = findViewById(R.id.hospital_id);
+        TextView bystander_text = findViewById(R.id.bystanders_name);
+        TextView patient_text = findViewById(R.id.patient_id);
+        hos_text.setText(ctx.hostpitalName);
+        patient_text.setText(ctx.patientName);
+        bystander_text.setText(ctx.ByStander_Name);
+        if (ctx.user_category == 1) {
+
+        }
+        //Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.user_id);
+        //Intent i = new Intent(this, RestFetcher.class);
+        //i.setAction(RestFetcher.ACTION_GET_ALL);
 
         // Add extras to the bundle
-        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
-        i.putExtra(RestFetcher.EXTRA_PARAM2_CURSOR, "0");
+        //i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
+        //i.putExtra(RestFetcher.EXTRA_PARAM2_CURSOR, "0");
         // Start the service
-        startService(i);
+        //startService(i);
 
     }
 
@@ -64,7 +72,7 @@ public class patient_profile extends AppCompatActivity {
             int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
             DcareAppCtx ctx = (DcareAppCtx) patient_profile.this.getApplicationContext();
             TextView welcome_cmt =findViewById(R.id.welcome_cmt);
-            welcome_cmt.setText("Welcome\t"+ctx.user_name);
+
             //MainActivity ctx1 = (MainActivity)  PatientSpecificInfo2.this.getApplicationContext();
             if (resultCode == RESULT_OK) {
                 //String resultValue = intent.getStringExtra("resultValue");
@@ -98,7 +106,7 @@ public class patient_profile extends AppCompatActivity {
                 }*/
                 Intent i = new Intent(patient_profile.this, RestFetcher.class);
                 i.setAction(RestFetcher.ACTION_GET_ALL);
-                i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
+                i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
 
 
                 String cursor_str = String.valueOf(ctx.cursor);

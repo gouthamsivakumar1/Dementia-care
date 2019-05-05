@@ -74,10 +74,14 @@ public class DcareMainActivity extends Activity {
                 Log.i(TAG, "Rest response success, id="+pId+" pCategory ="+uCategory);
                 if (pId.equalsIgnoreCase("unknown") == false) {
                     DcareAppCtx ctx = (DcareAppCtx) DcareMainActivity.this.getApplicationContext();
-                    ctx.user_id = Integer.parseInt(pId);
+                    ctx.patient_id = Integer.parseInt(pId);
                     ctx.setUser_category(uCategory);
-                    ctx.user_name = patientList.get(0).Patient_Name;
+                    //ctx.user_name = patientList.get(0).Patient_Name;
+                    ctx.patientName = patientList.get(0).Patient_Name;
+                    ctx.ByStander_Name = patientList.get(0).ByStander_Name;
+                    ctx.hostpitalName = patientList.get(0).Hospital_name;
                     ctx.cursor = 0;
+
                     Intent intent = new Intent(DcareMainActivity.this, userlogin.class);
                     startActivity(intent);
                 } else {

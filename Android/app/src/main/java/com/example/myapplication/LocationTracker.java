@@ -28,12 +28,12 @@ public class LocationTracker extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(testReceiver, filter);
 
         DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
-        Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.user_id);
+        Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.patient_id);
         Intent i = new Intent(this, RestFetcher.class);
         i.setAction(RestFetcher.ACTION_GET_ALL);
 
         // Add extras to the bundle
-        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
+        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
         i.putExtra(RestFetcher.EXTRA_PARAM2_CURSOR, "0");
         // Start the service
         startService(i);
@@ -43,7 +43,7 @@ public class LocationTracker extends AppCompatActivity {
         Log.i(TAG, "clicked location refresh...");
         Intent i = new Intent(LocationTracker.this, RestFetcher.class);
         i.setAction(RestFetcher.ACTION_GET_ALL);
-        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.user_id));
+        i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
 
         String cursor_str = "0";//String.valueOf(ctx.cursor);
         i.putExtra(RestFetcher.EXTRA_PARAM2_CURSOR, cursor_str);

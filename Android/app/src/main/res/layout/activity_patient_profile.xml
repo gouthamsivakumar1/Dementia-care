@@ -225,7 +225,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
                     android:paddingLeft="10dp"
-                    android:text="Patient Id"
+                    android:text="Patient Name"
                     android:textColor="@color/ashdark"
                     android:textSize="20dp"
                     app:fontFamily="sans-serif-black" />

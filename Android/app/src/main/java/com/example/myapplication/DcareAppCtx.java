@@ -5,13 +5,16 @@ import android.content.Intent;
 
 public class DcareAppCtx extends Application {
     public String user_name;
-    public int user_id;
+    public int patient_id;
     public int cursor;
+    public String patientName;
+    public String ByStander_Name;
+    public String hostpitalName;
     public int location_tracking_cursor;
     /* category 1 for patient, 2 for bystander 3 for admin */
     public int user_category;
     public void setUser_id(String user_id) {
-        this.user_id = Integer.parseInt(user_id);
+        this.patient_id = Integer.parseInt(user_id);
     }
     public void setUser_name(String user_name) {
         this.user_name = user_name;
