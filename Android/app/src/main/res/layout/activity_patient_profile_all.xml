@@ -1,98 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient">
+    android:orientation="vertical"
+    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/ListView"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:divider="@color/material_blue_grey_800"
+        android:dividerHeight="2dp"
+        android:footerDividersEnabled="false"/>
 
-
-        <TextView
-            android:background="@drawable/border"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="648dp"
-            android:padding="10dip"
-            android:text="PATIENT ID"
-            android:textSize="16dip"
-            android:textStyle="bold" />
-
-        <TextView
-            android:background="@drawable/border"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="648dp"
-            android:padding="10dip"
-            android:text="PATIENT NAME"
-            android:textSize="16dip"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:background="@drawable/border"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="648dp"
-            android:padding="10dip"
-            android:text="BYSTANDER"
-            android:textSize="16dip"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="40dp"
-        android:orientation="horizontal"
-        android:id="@+id/lm">
-
-
-        <TextView
-            android:id="@+id/patient_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="648dp"
-            android:background="@color/mdtp_white"
-            android:textColor="@color/blue"
-            android:padding="10dip"
-            android:text="PATIENT ID"
-            android:textSize="16dip"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/patient_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="648dp"
-            android:textColor="@color/blue"
-            android:background="@color/mdtp_white"
-            android:padding="10dip"
-            android:text="PATIENT NAME"
-            android:textSize="16dip"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:id="@+id/bystanders_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="648dp"
-            android:textColor="@color/blue"
-            android:background="@color/mdtp_white"
-            android:padding="10dip"
-            android:text="BYSTANDER"
-            android:textSize="16dip"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-
-
-</RelativeLayout>
+</LinearLayout>
