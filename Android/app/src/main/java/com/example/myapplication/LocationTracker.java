@@ -24,13 +24,13 @@ public class LocationTracker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_tracker);
 
-        IntentFilter filter = new IntentFilter(RestFetcher.ACTION_GET_ALL);
+        IntentFilter filter = new IntentFilter(RestFetcher.ACTION_LOCATION);
         LocalBroadcastManager.getInstance(this).registerReceiver(testReceiver, filter);
 
         DcareAppCtx ctx = (DcareAppCtx) this.getApplicationContext();
         Log.i(TAG, "patient specific info2 health on create user name: "+ctx.user_name+" "+ctx.patient_id);
         Intent i = new Intent(this, RestFetcher.class);
-        i.setAction(RestFetcher.ACTION_GET_ALL);
+        i.setAction(RestFetcher.ACTION_LOCATION);
 
         // Add extras to the bundle
         i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
@@ -42,7 +42,7 @@ public class LocationTracker extends AppCompatActivity {
         DcareAppCtx ctx = (DcareAppCtx) LocationTracker.this.getApplicationContext();
         Log.i(TAG, "clicked location refresh...");
         Intent i = new Intent(LocationTracker.this, RestFetcher.class);
-        i.setAction(RestFetcher.ACTION_GET_ALL);
+        i.setAction(RestFetcher.ACTION_LOCATION);
         i.putExtra(RestFetcher.EXTRA_PARAM1_REQ_TYPE, String.valueOf(ctx.patient_id));
 
         String cursor_str = "0";//String.valueOf(ctx.cursor);
@@ -51,45 +51,9 @@ public class LocationTracker extends AppCompatActivity {
         startService(i);
     }
     static int top_min_val = 100;
-    static int top_max_val = 1000;
+    static int top_max_val = 1200;
     static int top_reset_val = 500;
-/*
-    public int calculate_location_point(int reader1, int reader2) {
-        int reader_val = 0;
-        if (reader1 != 0 && reader2 != 0) {
-            if (reader2 > reader1) {
-                reader_val = reader1;
-            } else {
-                reader_val = reader2;
-            }
-        } else {
-            if (reader1 > reader2) {
-                reader_val = reader1;
-            } else {
-                reader_val = reader2;
-            }
-        }
-        int onepiece = (top_max_val - top_min_val)/100;
 
-        if (reader_val==0) { // No value could be derived
-            return top_reset_val;
-        } else {
-            if (reader1 == reader_val) {
-                int reader_percentage = (int)(((float)(reader_val-40)/60)*100);
-
-                Log.i(TAG, "reader1_percentage="+String.valueOf(reader_percentage));
-                int reader_calculated_val = top_min_val + (onepiece * reader_percentage);
-                return reader_calculated_val;
-            } else {
-                Log.i(TAG, "reader_val just before reader2 percentage:"+String.valueOf(reader_val));
-                int reader_percentage = (int)(((float)(reader_val-40)/60)*100);
-                Log.i(TAG, "reader2_percentage="+String.valueOf(reader_percentage));
-                int reader_calculated_val = top_max_val - (onepiece * reader_percentage);
-                return reader_calculated_val;
-            }
-        }
-    }
-*/
     public int calculate_location_point_new(int reader1, int reader2) {
         int reader_val = 0;
         if (reader1 == reader2) return top_reset_val;
@@ -124,6 +88,8 @@ public class LocationTracker extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "LocationTracker onReceive");
             int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
+            String action = intent.getAction();
+            Log.i(TAG, "in location receiver="+ action);
             DcareAppCtx ctx = (DcareAppCtx) LocationTracker.this.getApplicationContext();
             if (resultCode == RESULT_OK) {
                 RelativeLayout location_layout = findViewById(R.id.LocationIconLayout);

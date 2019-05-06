@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+/*
 public class RestPatientIdResponse {
     public String Date_n_Time;
     public String HospitalId;
@@ -13,4 +14,4 @@ public class RestPatientIdResponse {
     public String Lat;
     public String Longi;
     public String FallDetection;
-}
+}*/

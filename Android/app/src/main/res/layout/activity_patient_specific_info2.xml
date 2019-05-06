@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical"
-            android:text="30%"
+            android:text="0"
             android:id="@+id/Hearth_Beat"
             android:textColor="#FFFDFD"
             android:textSize="25sp"
@@ -102,7 +102,7 @@
             android:id="@+id/Calorie_Rate"
             android:textColor="#FFFDFD"
             android:textSize="25sp"
-            android:text="70%"
+            android:text="0"
             app:fontFamily="sans-serif-black" />
     </LinearLayout>
 
@@ -133,7 +133,7 @@
             android:id="@+id/Step_Count"
             android:textColor="#FFFDFD"
             android:textSize="25sp"
-            android:text="50%"
+            android:text="0"
             app:fontFamily="sans-serif-black" />
     </LinearLayout>
 </LinearLayout>

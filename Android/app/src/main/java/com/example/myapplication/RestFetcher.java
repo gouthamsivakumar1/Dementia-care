@@ -30,6 +30,7 @@ public class RestFetcher extends IntentService {
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     public static final String ACTION_GET_ALL = "com.example.myapplication.action.GET_ALL";
     public static final String ACTION_ALERT = "com.example.myapplication.action.ACTION_ALERT";
+    public static final String ACTION_LOCATION = "com.example.myapplication.action.ACTION_LOCATION";
     public static int alert_cursor=0;
     public static int alert_iter_cnt=0;
     // TODO: Rename parameters
@@ -127,10 +128,9 @@ public class RestFetcher extends IntentService {
         });
 
     }
-    public void get_patient_id_request(Api api, String patient_id, String cursor) {
+    public void get_patient_id_request(Api api, final String action_str, String patient_id, String cursor) {
         Log.i(TAG, "Calling Rest... cursor="+ cursor+" patient id= "+ patient_id);
         Call<List<RestAllResponse>> call = api.getPatientWithId(patient_id, cursor);
-
 
         call.enqueue(new Callback<List<RestAllResponse>>() {
             @Override
@@ -149,7 +149,7 @@ public class RestFetcher extends IntentService {
                     ctx.setCursor(String.valueOf(ctx.cursor+len));
                 }
                 Log.i(TAG, "Rest response success= len = " + String.valueOf(len));
-                Intent in = new Intent(ACTION_GET_ALL);
+                Intent in = new Intent(action_str);
                 in.putExtra("resultCode", Activity.RESULT_OK);
                 in.putExtra("LIST", (Serializable) patientHealth);
                 //in.putExtra("resultValue", result);
@@ -248,9 +248,8 @@ public class RestFetcher extends IntentService {
             if (req_type.equalsIgnoreCase("all") == true) {
                 get_all_patient_request(api, cursor);
             } else {
-
-                Log.i(TAG, "Shouldnot hit patient id request...");
-                get_patient_id_request(api, req_type, cursor);
+                //Log.i(TAG, "Shouldnot hit patient id request...");
+                get_patient_id_request(api, action, req_type, cursor);
             }
 
         }
