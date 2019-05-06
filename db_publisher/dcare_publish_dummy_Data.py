@@ -97,8 +97,9 @@ def publish_fake_sensor_values_to_mqtt_one_time():
     for v in sensor_data.values():
         val_1 = val_1+str(v) +'|'
     print(val_1[0:-1])
-
-    publish_topic(MQTT_Topic, val_1[0:-1])
+    val_1 = val_1[0:-1]
+    val_1 = val_1+"##"
+    publish_topic(MQTT_Topic, val_1)
 
 #publish_fake_sensor_values_to_mqtt()
 publish_fake_sensor_values_to_mqtt_one_time()

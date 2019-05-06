@@ -49,6 +49,7 @@ def patient_data_handler(jsonData):
 
 def convert_string_to_list_of_json(input_s):
     multiple_records= input_s.split("##")
+    multiple_records= [i for i in multiple_records if len(i)>0]
     list_of_list_record = list()
     for record in multiple_records:
         l = record.split('|')
