@@ -5,7 +5,7 @@ import android.content.Intent;
 
 public class DcareAppCtx extends Application {
     public String user_name;
-    public int patient_id;
+    public long patient_id;
     public int cursor;
     public String patientName;
     public String ByStander_Name;
