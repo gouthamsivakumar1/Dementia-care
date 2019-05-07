@@ -20,8 +20,8 @@ class DatabaseManager():
         self.cur = self.conn.cursor()
 
     def add_del_update_db_record(self, sql_query, args=()):
-        print("sql_query= ", sql_query)
-        print("args = ", args)
+        #print("sql_query= ", sql_query)
+        #print("args = ", args)
         self.cur.execute(sql_query, args)
         self.conn.commit()
         return
@@ -67,7 +67,7 @@ def convert_string_to_list_of_json(input_s):
     return sensor_data_list
 
 def sensor_Data_Handler(Topic, input_s):
-    print("received sensor_Data_Handler... got it")
+    #print("received sensor_Data_Handler... got it")
     json_list = convert_string_to_list_of_json(input_s)
     for j in json_list:
         patient_data_handler(j)
@@ -75,8 +75,7 @@ def sensor_Data_Handler(Topic, input_s):
 def on_message(client, userdata, msg):
     time.sleep(1)
     try:
-        print("received message =",str(msg.payload.decode("utf-8")))
-        print("sensor_Data_Handler db calling ")
+        print "received message =", str(msg.payload.decode("utf-8"))
         sensor_Data_Handler(msg.topic, msg.payload)
     except Exception as e:
         print("except Exception as e :", str(e))
