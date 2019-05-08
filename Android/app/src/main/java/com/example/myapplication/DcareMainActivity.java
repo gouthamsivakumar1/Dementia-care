@@ -74,7 +74,7 @@ public class DcareMainActivity extends Activity {
                 Log.i(TAG, "Rest response success, id="+pId+" pCategory ="+uCategory);
                 if (pId.equalsIgnoreCase("unknown") == false) {
                     DcareAppCtx ctx = (DcareAppCtx) DcareMainActivity.this.getApplicationContext();
-                    ctx.patient_id = Integer.parseInt(pId);
+                    ctx.patient_id = Long.parseLong(pId);
                     ctx.setUser_category(uCategory);
                     //ctx.user_name = patientList.get(0).Patient_Name;
                     ctx.patientName = patientList.get(0).Patient_Name;

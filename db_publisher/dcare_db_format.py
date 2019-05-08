@@ -28,7 +28,6 @@ def fill_patient_live_data_db_table():
     return live_data_text[0:-1]
 
 def format_sensor_data(d):
-    print("input dict: ", d)
     live_data_text = "("
     for i in db_live_data_format:
         live_data_text = live_data_text + i + ","
@@ -37,7 +36,6 @@ def format_sensor_data(d):
         live_data_text = live_data_text + "'" + d[i] + "'" + ","
     live_data_text = live_data_text[0:-1] + ")"
 
-    print(live_data_text)
     return live_data_text
 
 def fill_patient_info_db():
