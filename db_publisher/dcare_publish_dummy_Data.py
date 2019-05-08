@@ -80,7 +80,7 @@ def publish_fake_sensor_values_to_mqtt_one_time():
     #threading.Timer(3.0, publish_fake_sensor_values_to_mqtt).start()
     sensor_data = OrderedDict()
     sensor_data['HospitalId'] = "cosmohospital" 
-    sensor_data['ReaderId']   = "reader2"
+    sensor_data['ReaderId']   = "008"
     sensor_data['Date_n_Time'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
     #sensor_data['ReaderId']   = random_select(reader_list)
     sensor_data['HeartBeat']   = random_select(heart_beat)

@@ -62,6 +62,13 @@ def convert_string_to_list_of_json(input_s):
         sensor_data ={}
         for idx, val in enumerate(data_format.db_live_data_format) :
             sensor_data[val] = record[idx]
+        #Do any conversion on data Dictionary
+        if sensor_data['ReaderId'] == '008':
+            sensor_data['ReaderId'] = 'reader1'
+        else:
+            sensor_data['ReaderId'] = 'reader2'
+        sensor_data['HospitalId'] = 'Stanford Hospital'
+
         sensor_data_json = json.dumps(sensor_data)
         sensor_data_list.append(sensor_data_json)
     return sensor_data_list
